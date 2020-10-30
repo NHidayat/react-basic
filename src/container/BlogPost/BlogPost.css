@@ -1,0 +1,13 @@
+.post {
+  display: inline-block;
+  width: 300px;
+  padding: 20px;
+  box-shadow: 0px 1px 22px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+.desc {
+  font-size: 12px;
+  color: darkslategray;
+}
