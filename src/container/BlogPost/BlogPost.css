@@ -24,3 +24,34 @@
 .btn-remove:hover {
   background: red;
 }
+
+.form-add-post {
+  margin-top: 10px;
+  display: block;
+  width: 300px;
+  padding: 20px;
+  box-shadow: 0px 1px 22px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+.form-add-post label {
+  display: block;
+}
+
+.form-add-post input {
+  display: block;
+}
+
+.form-add-post .btn-submit {
+  padding: 10px;
+  background: coral;
+  color: #fff;
+  border: none;
+  display: block;
+  cursor: pointer;
+}
+
+.form-add-post .btn-submit:hover {
+  background: brown;
+}
