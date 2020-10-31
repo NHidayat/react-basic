@@ -6,6 +6,7 @@ import "./BlogPost.css";
 class BlogPost extends Component {
   state = {
     post: [],
+    isUpdate: false,
     formPost: {
       userId: "1",
       id: "",
@@ -34,14 +35,23 @@ class BlogPost extends Component {
         this.getPost();
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
       });
+  };
+
+  handleUpdate = (data) => {
+    this.setState({
+      formPost: data,
+      isUpdate: true,
+    });
   };
 
   handleFormChange = (event) => {
     let newFormPost = { ...this.state.formPost };
     let timeStamp = new Date().getTime();
-    newFormPost["id"] = timeStamp;
+    if (!this.state.isUpdate) {
+      newFormPost["id"] = timeStamp;
+    }
     newFormPost[event.target.name] = event.target.value;
     this.setState({
       formPost: newFormPost,
@@ -53,13 +63,53 @@ class BlogPost extends Component {
       .post(`http://localhost:3004/posts`, this.state.formPost)
       .then((res) => {
         this.getPost();
+        this.setState({
+          formPost: {
+            userId: "1",
+            id: "",
+            title: "",
+            body: "",
+          },
+        });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
       });
   }
+
+  putData() {
+    axios
+      .put(
+        `http://localhost:3004/posts/${this.state.formPost.id}`,
+        this.state.formPost
+      )
+      .then((res) => {
+        this.getPost();
+        this.handleCancel();
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+
   handleSubmit = () => {
-    this.postData();
+    if (!this.state.isUpdate) {
+      this.postData();
+    } else {
+      this.putData();
+    }
+  };
+
+  handleCancel = () => {
+    this.setState({
+      isUpdate: false,
+      formPost: {
+        userId: "1",
+        id: "",
+        title: "",
+        body: "",
+      },
+    });
   };
 
   componentDidMount() {
@@ -73,7 +123,12 @@ class BlogPost extends Component {
             <span>Add Posts</span>
           </div>
           <label htmlFor="title">Title</label>
-          <input type="text" name="title" onChange={this.handleFormChange} />
+          <input
+            type="text"
+            name="title"
+            onChange={this.handleFormChange}
+            value={this.state.formPost.title}
+          />
           <label htmlFor="">Body Content</label>
           <textarea
             name="body"
@@ -82,13 +137,33 @@ class BlogPost extends Component {
             rows="10"
             placeholder="ad.."
             onChange={this.handleFormChange}
+            value={this.state.formPost.body}
           ></textarea>
-          <button className="btn-submit" onClick={this.handleSubmit}>
-            Save
-          </button>
+          {!this.state.isUpdate && (
+            <button className="btn-submit" onClick={this.handleSubmit}>
+              Add
+            </button>
+          )}
+          {this.state.isUpdate && (
+            <Fragment>
+              <button className="btn-update" onClick={this.handleSubmit}>
+                Update
+              </button>
+              <button className="btn-remove" onClick={this.handleCancel}>
+                Cancel
+              </button>
+            </Fragment>
+          )}
         </div>
         {this.state.post.map((v) => {
-          return <Post data={v} remove={this.handleRemove} key={v.id} />;
+          return (
+            <Post
+              data={v}
+              remove={this.handleRemove}
+              update={this.handleUpdate}
+              key={v.id}
+            />
+          );
         })}
       </Fragment>
     );

@@ -12,17 +12,24 @@
   color: darkslategray;
 }
 
-.btn-remove {
-  background: salmon;
-  color: #fff;
+button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
+.btn-remove {
+  background: salmon;
+  color: #fff;
+}
 
 .btn-remove:hover {
   background: red;
+}
+
+.btn-update {
+  background: blueviolet;
+  color: #fff;
 }
 
 .form-add-post {
@@ -44,12 +51,9 @@
 }
 
 .form-add-post .btn-submit {
-  padding: 10px;
   background: coral;
   color: #fff;
-  border: none;
   display: block;
-  cursor: pointer;
 }
 
 .form-add-post .btn-submit:hover {
